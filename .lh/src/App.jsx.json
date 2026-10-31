@@ -1,0 +1,22 @@
+{
+    "sourceFile": "src/App.jsx",
+    "activeCommit": 0,
+    "commits": [
+        {
+            "activePatchIndex": 1,
+            "patches": [
+                {
+                    "date": 1793456734613,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n"
+                },
+                {
+                    "date": 1793457338071,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -6,22 +6,26 @@\n export default function App() {\n   const { activeTab } = useWorkspaceStore();\n \n   return (\n-    <div className=\"min-h-screen bg-[var(--color-desk)] flex flex-col\">\n+    <div className=\"w-full h-screen overflow-hidden bg-stone-950 flex flex-col\">\n       <Navbar />\n-      <main className=\"flex-1 p-6 flex items-center justify-center\">\n+\n+      {/* Main Full-Screen Viewport */}\n+      <main className=\"w-full h-full pt-12 pb-16\">\n         {activeTab === 'wall' && <CorkBoard />}\n+\n         {activeTab === 'notebook' && (\n-          <div className=\"text-white text-center p-12 border border-dashed border-stone-700 rounded-2xl\">\n-            <h2 className=\"text-xl font-bold\">3D Notebook Module</h2>\n-            <p className=\"text-stone-400 mt-2 text-sm\">Next up: PIN Lock & Flip Pages 📖</p>\n+          <div className=\"h-full flex flex-col items-center justify-center text-stone-300 p-6\">\n+            <h2 className=\"text-lg font-bold text-amber-300\">Notebook Tab</h2>\n+            <p className=\"text-xs text-stone-400 mt-1\">Book covers & PIN lock setup</p>\n           </div>\n         )}\n+\n         {activeTab === 'notes' && (\n-          <div className=\"text-white text-center p-12 border border-dashed border-stone-700 rounded-2xl\">\n-            <h2 className=\"text-xl font-bold\">Quick Notes List Module</h2>\n-            <p className=\"text-stone-400 mt-2 text-sm\">Simple drawer notes sheet view 📝</p>\n+          <div className=\"h-full flex flex-col items-center justify-center text-stone-300 p-6\">\n+            <h2 className=\"text-lg font-bold text-amber-300\">Quick Notes Tab</h2>\n+            <p className=\"text-xs text-stone-400 mt-1\">Drawer list view</p>\n           </div>\n         )}\n       </main>\n     </div>\n"
+                }
+            ],
+            "date": 1793456734613,
+            "name": "Commit-0",
+            "content": "import React from 'react';\nimport Navbar from './components/Navbar';\nimport CorkBoard from './features/wall-todos/CorkBoard';\nimport { useWorkspaceStore } from './store/useWorkspaceStore';\n\nexport default function App() {\n  const { activeTab } = useWorkspaceStore();\n\n  return (\n    <div className=\"min-h-screen bg-[var(--color-desk)] flex flex-col\">\n      <Navbar />\n      <main className=\"flex-1 p-6 flex items-center justify-center\">\n        {activeTab === 'wall' && <CorkBoard />}\n        {activeTab === 'notebook' && (\n          <div className=\"text-white text-center p-12 border border-dashed border-stone-700 rounded-2xl\">\n            <h2 className=\"text-xl font-bold\">3D Notebook Module</h2>\n            <p className=\"text-stone-400 mt-2 text-sm\">Next up: PIN Lock & Flip Pages 📖</p>\n          </div>\n        )}\n        {activeTab === 'notes' && (\n          <div className=\"text-white text-center p-12 border border-dashed border-stone-700 rounded-2xl\">\n            <h2 className=\"text-xl font-bold\">Quick Notes List Module</h2>\n            <p className=\"text-stone-400 mt-2 text-sm\">Simple drawer notes sheet view 📝</p>\n          </div>\n        )}\n      </main>\n    </div>\n  );\n}"
+        }
+    ]
+}

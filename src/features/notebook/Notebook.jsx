@@ -59,7 +59,7 @@ export default function Notebook() {
     }
   };
 
-  const theme = coverThemes[notebook.cover] || coverThemes['royal-blue'];
+  const theme = coverThemes[notebook.cover] || coverThemes['obsidian'];
 
   const handleNext = () => {
     if (notebook.currentPage < totalPages - 1) {
@@ -91,10 +91,10 @@ export default function Notebook() {
   };
 
   return (
-    <div className="relative w-full h-[calc(100vh-68px)] max-h-screen flex flex-col items-center justify-between overflow-hidden bg-[#140c07] select-none px-2 sm:px-4 pt-1 pb-16">
+    <div className="relative w-full h-full max-h-[calc(100vh-120px)] flex flex-col items-center justify-between overflow-hidden select-none px-2 sm:px-4">
       
-      {/* Top Glass Control Bar */}
-      <div className="z-30 w-full max-w-4xl bg-stone-900/95 backdrop-blur-md px-3 py-1.5 rounded-xl border border-amber-950/70 flex items-center justify-between gap-2 shadow-xl mb-1 shrink-0">
+      {/* Top Glass Control Bar - Visible and Padded */}
+      <div className="z-30 w-full max-w-4xl bg-stone-900/95 backdrop-blur-md px-3 py-1.5 rounded-xl border border-amber-950/70 flex items-center justify-between gap-2 shadow-xl shrink-0 mt-1 mb-2">
         <div className="flex items-center gap-2">
           <button
             onClick={() => setIsCoverModalOpen(true)}
@@ -113,7 +113,6 @@ export default function Notebook() {
           </button>
         </div>
 
-        {/* Global Total Pages Badge */}
         <div className="hidden sm:flex items-center gap-1 px-2.5 py-0.5 rounded-md bg-stone-800 border border-stone-700 text-[11px] font-bold text-amber-300">
           <span>Total Pages: {totalPages}</span>
         </div>
@@ -133,13 +132,12 @@ export default function Notebook() {
         )}
       </div>
 
-      {/* Book Frame */}
-      <div className="relative w-full max-w-4xl flex-1 flex items-center justify-center min-h-0 py-1">
+      {/* Book Container with Natural Aspect Ratio */}
+      <div className="relative w-full max-w-4xl flex-1 flex items-center justify-center min-h-0 pb-1">
         
         {/* Outer Hardcover */}
-        <div className={`relative w-full h-full max-h-[calc(100vh-140px)] rounded-2xl ${theme.bg} border-[8px] sm:border-[12px] ${theme.border} shadow-[0_20px_50px_rgba(0,0,0,0.9),0_10px_20px_rgba(0,0,0,0.8)] flex p-1.5 sm:p-2.5 overflow-hidden transition-colors duration-300 border-double`}>
+        <div className={`relative w-full h-full max-h-[520px] rounded-2xl ${theme.bg} border-[8px] sm:border-[12px] ${theme.border} shadow-[0_20px_50px_rgba(0,0,0,0.9),0_10px_20px_rgba(0,0,0,0.8)] flex p-1.5 sm:p-2.5 overflow-hidden transition-colors duration-300 border-double`}>
           
-          {/* Stitches */}
           <div className={`pointer-events-none absolute inset-1 rounded-xl border border-dashed ${theme.stitch} z-10`} />
 
           {/* Golden Corner Guards */}
@@ -180,7 +178,7 @@ export default function Notebook() {
             </div>
           )}
 
-          {/* OPEN PAGES CONTAINER */}
+          {/* Pages */}
           <div className="relative flex-1 w-full h-full flex rounded-xl overflow-hidden shadow-2xl">
             
             {/* LEFT PAGE */}
@@ -193,7 +191,6 @@ export default function Notebook() {
                 backgroundPosition: '0 4px'
               }}
             >
-              {/* Header with Total Page Count */}
               <div className="flex items-center justify-between border-b border-amber-900/10 pb-1.5 shrink-0">
                 <div className="flex items-center gap-1.5">
                   <Bookmark size={14} className="text-rose-600 fill-rose-600 -mt-0.5" />
@@ -217,7 +214,6 @@ export default function Notebook() {
                 </div>
               </div>
 
-              {/* Left Page Content with Minimal Scrollbar */}
               <div className="flex-1 flex flex-col mt-1.5 overflow-hidden min-h-0">
                 <input
                   type="text"
@@ -235,7 +231,7 @@ export default function Notebook() {
                 />
               </div>
 
-              {/* Mobile-only page nav footer */}
+              {/* Mobile Footer */}
               <div className="flex md:hidden items-center justify-between pt-1.5 border-t border-amber-900/10 shrink-0">
                 <button
                   onClick={handlePrev}
@@ -260,7 +256,7 @@ export default function Notebook() {
               </div>
             </div>
 
-            {/* RIGHT PAGE (Zero Flip Animation - Clean Instant Switch) */}
+            {/* RIGHT PAGE */}
             <div 
               className="hidden md:flex relative flex-1 h-full flex-col justify-between p-3 sm:p-5 shadow-[inset_10px_0_15px_rgba(0,0,0,0.06)] overflow-hidden"
               style={{
@@ -313,11 +309,11 @@ export default function Notebook() {
 
           </div>
 
-          {/* Flip Buttons */}
+          {/* Desktop Outer Arrows: Frame ke borders par locked */}
           <button
             onClick={handlePrev}
             disabled={notebook.currentPage === 0}
-            className="hidden md:flex absolute left-3 top-1/2 -translate-y-1/2 z-30 w-7 h-7 rounded-full bg-stone-900/80 hover:bg-amber-600 text-white items-center justify-center shadow-lg transition disabled:opacity-20 active:scale-90"
+            className="hidden md:flex absolute -left-1 top-1/2 -translate-y-1/2 z-30 w-7 h-7 rounded-full bg-stone-900/90 hover:bg-amber-600 text-white items-center justify-center shadow-lg transition disabled:opacity-20 active:scale-90 border border-stone-700"
           >
             <ChevronLeft size={16} />
           </button>
@@ -325,7 +321,7 @@ export default function Notebook() {
           <button
             onClick={handleNext}
             disabled={notebook.currentPage >= totalPages - 1}
-            className="hidden md:flex absolute right-3 top-1/2 -translate-y-1/2 z-30 w-7 h-7 rounded-full bg-stone-900/80 hover:bg-amber-600 text-white items-center justify-center shadow-lg transition disabled:opacity-20 active:scale-90"
+            className="hidden md:flex absolute -right-1 top-1/2 -translate-y-1/2 z-30 w-7 h-7 rounded-full bg-stone-900/90 hover:bg-amber-600 text-white items-center justify-center shadow-lg transition disabled:opacity-20 active:scale-90 border border-stone-700"
           >
             <ChevronRight size={16} />
           </button>
@@ -333,7 +329,7 @@ export default function Notebook() {
         </div>
       </div>
 
-      {/* POPUP MODAL: Change Cover */}
+      {/* MODALS */}
       <AnimatePresence>
         {isCoverModalOpen && (
           <div className="fixed inset-0 z-50 flex items-center justify-center p-3 bg-black/75 backdrop-blur-sm">
@@ -373,7 +369,6 @@ export default function Notebook() {
         )}
       </AnimatePresence>
 
-      {/* POPUP MODAL: PIN Configuration */}
       <AnimatePresence>
         {isPinModalOpen && (
           <div className="fixed inset-0 z-50 flex items-center justify-center p-3 bg-black/75 backdrop-blur-sm">

@@ -21,7 +21,7 @@ export default function CorkBoard() {
   const [isSelectMenuOpen, setIsSelectMenuOpen] = useState(false);
 
   // Form states
-  const [cardType, setCardType] = useState('checklist'); // 'checklist' | 'note'
+  const [cardType, setCardType] = useState('checklist');
   const [title, setTitle] = useState('');
   const [noteText, setNoteText] = useState('');
   const [checklistItems, setChecklistItems] = useState(['']);
@@ -38,10 +38,10 @@ export default function CorkBoard() {
   }, []);
 
   const colorStyles = {
-    yellow: 'bg-[#fff582] text-amber-950 border-[#ecd36b] shadow-[0_8px_18px_rgba(40,20,5,0.35)]',
-    white: 'bg-[#f8f9fa] text-stone-900 border-[#d2d6dc] shadow-[0_8px_18px_rgba(40,20,5,0.35)]',
-    green: 'bg-[#315f4a] text-[#f0faf4] border-[#1d4030] shadow-[0_8px_20px_rgba(20,10,5,0.45)]',
-    pink: 'bg-[#ff9cbd] text-rose-950 border-[#ea82a4] shadow-[0_8px_18px_rgba(40,20,5,0.35)]',
+    yellow: 'bg-[#fff582] text-amber-950 border-[#ecd36b] shadow-[0_4px_12px_rgba(40,20,5,0.35)]',
+    white: 'bg-[#f8f9fa] text-stone-900 border-[#d2d6dc] shadow-[0_4px_12px_rgba(40,20,5,0.35)]',
+    green: 'bg-[#315f4a] text-[#f0faf4] border-[#1d4030] shadow-[0_4px_14px_rgba(20,10,5,0.45)]',
+    pink: 'bg-[#ff9cbd] text-rose-950 border-[#ea82a4] shadow-[0_4px_12px_rgba(40,20,5,0.35)]',
   };
 
   const handleOpenAdd = () => {
@@ -109,10 +109,10 @@ export default function CorkBoard() {
   const selectedCount = todos.filter((t) => t.selected).length;
 
   return (
-    <div className="relative w-full h-full flex flex-col overflow-hidden bg-[#1f130b] select-none p-1 sm:p-2 pb-16">
+    <div className="relative w-full h-full flex flex-col overflow-hidden bg-[#180f08] select-none p-1.5 sm:p-3">
       
-      {/* Top Controls Bar */}
-      <div className="z-30 w-full bg-stone-900/95 backdrop-blur-md px-3 py-2 rounded-xl border border-amber-950/70 flex items-center justify-between gap-2 shadow-xl mb-1.5">
+      {/* Top Glass Control Bar */}
+      <div className="z-30 w-full bg-stone-900/95 backdrop-blur-md px-3 py-1.5 rounded-xl border border-amber-950/70 flex items-center justify-between gap-2 shadow-xl mb-1.5 shrink-0">
         <div className="flex items-center gap-2">
           <button
             onClick={handleOpenAdd}
@@ -193,7 +193,7 @@ export default function CorkBoard() {
       {/* Realistic Movie Corkboard Wall Frame */}
       <div 
         ref={boardRef}
-        className="relative flex-1 w-full h-full rounded-2xl overflow-hidden border-[12px] sm:border-[16px] border-[#915f33] shadow-[inset_0_5px_25px_rgba(0,0,0,0.85),0_10px_30px_rgba(0,0,0,0.9)]"
+        className="relative flex-1 w-full h-full rounded-2xl overflow-hidden border-[10px] sm:border-[14px] border-[#8c592f] shadow-[inset_0_4px_25px_rgba(0,0,0,0.85),0_10px_25px_rgba(0,0,0,0.9)]"
         style={{
           backgroundColor: '#9a6438',
           backgroundImage: `
@@ -205,7 +205,7 @@ export default function CorkBoard() {
           backgroundPosition: '0 0, 0 0, 4px 4px'
         }}
       >
-        <div className="pointer-events-none absolute inset-0 shadow-[inset_0_0_40px_rgba(0,0,0,0.7)] z-10" />
+        <div className="pointer-events-none absolute inset-0 shadow-[inset_0_0_35px_rgba(0,0,0,0.7)] z-10" />
 
         {todos.length === 0 ? (
           <div className="h-full flex flex-col items-center justify-center text-amber-200/50 z-0">
@@ -213,26 +213,23 @@ export default function CorkBoard() {
             <p className="text-xs font-semibold uppercase tracking-wider">Empty Board. Tap "+ Add Card" to Pin.</p>
           </div>
         ) : isAutoArranged ? (
-          /* AUTO GRID VIEW */
-          <div className="relative z-20 grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3 p-3 overflow-y-auto h-full pb-20">
+          /* AUTO GRID: Items start without vertical stretching */
+          <div className="relative z-20 grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 items-start gap-2.5 p-2.5 overflow-y-auto h-full pb-16">
             {todos.map((todo) => (
               <div
                 key={todo.id}
-                className={`relative p-2.5 rounded-lg border flex flex-col justify-between transition-transform ${colorStyles[todo.color || 'yellow']}`}
+                className={`relative w-full h-auto p-2.5 rounded-lg border flex flex-col justify-between transition-transform ${colorStyles[todo.color || 'yellow']}`}
               >
-                {/* 3D Rotated Pushpin Header */}
+                {/* 3D Pushpin Header */}
                 <div className="flex items-center justify-between pb-1 border-b border-black/10">
                   <span className="text-[10px] font-black bg-black/10 px-1.5 py-0.5 rounded">
                     #{todo.number}
                   </span>
 
-                  {/* 3D Rotated Metallic Pushpin */}
                   <div className="relative flex items-center justify-center -mt-2 transform -rotate-12">
-                    <div className="w-4 h-4 rounded-full bg-gradient-to-tr from-stone-500 via-stone-200 to-white shadow-[2px_3px_5px_rgba(0,0,0,0.55)] border border-stone-600 flex items-center justify-center">
+                    <div className="w-4 h-4 rounded-full bg-gradient-to-tr from-stone-500 via-stone-200 to-white shadow-[1px_2px_4px_rgba(0,0,0,0.5)] border border-stone-600 flex items-center justify-center">
                       <div className="w-1.5 h-1.5 rounded-full bg-white opacity-80" />
                     </div>
-                    {/* Subtle needle pin shadow */}
-                    <div className="absolute top-3.5 left-1 w-1.5 h-2 bg-stone-800/40 rounded-full blur-[1px] transform rotate-45" />
                   </div>
 
                   <button
@@ -243,7 +240,7 @@ export default function CorkBoard() {
                   </button>
                 </div>
 
-                {/* Top-Fixed Centered Title */}
+                {/* Card Title */}
                 {todo.title && (
                   <div className="mt-1 pb-1 border-b border-black/5 text-center">
                     <h4 className={`text-xs font-black tracking-tight leading-snug break-words ${todo.completed ? 'line-through opacity-50' : ''}`}>
@@ -252,8 +249,8 @@ export default function CorkBoard() {
                   </div>
                 )}
 
-                {/* Body: Checklist or Note */}
-                <div className="my-1.5 flex-1 overflow-y-auto max-h-36">
+                {/* Body Content */}
+                <div className="my-1.5 max-h-32 overflow-y-auto">
                   {todo.type === 'checklist' && todo.checklist?.length > 0 ? (
                     <div className="space-y-1">
                       {todo.checklist.map((item) => (
@@ -281,7 +278,7 @@ export default function CorkBoard() {
                   )}
                 </div>
 
-                {/* Bottom Status / Delete */}
+                {/* Footer Controls */}
                 <div className="flex items-center justify-between pt-1 border-t border-black/10 mt-1">
                   <button
                     onClick={() => toggleTodo(todo.id)}
@@ -304,7 +301,7 @@ export default function CorkBoard() {
             ))}
           </div>
         ) : (
-          /* MANUAL PIN BOARD VIEW */
+          /* MANUAL PIN BOARD: Zero Magnetic Jump + Pixel Clamp */
           <div className="relative z-20 w-full h-full overflow-hidden">
             {todos.map((todo) => (
               <motion.div
@@ -313,36 +310,41 @@ export default function CorkBoard() {
                 dragConstraints={boardRef}
                 dragElastic={0}
                 dragMomentum={false}
+                dragTransition={{ power: 0, timeConstant: 0 }}
                 onDragEnd={(_, info) => {
                   if (!boardRef.current) return;
                   const bounds = boardRef.current.getBoundingClientRect();
-                  const cardWidth = 180;
-                  const cardHeight = 165;
+                  const cardWidth = 175;
+                  const cardHeight = 145;
                   
-                  const newX = todo.x + info.offset.x;
-                  const newY = todo.y + info.offset.y;
-                  const clampedX = Math.max(10, Math.min(bounds.width - cardWidth - 15, newX));
-                  const clampedY = Math.max(10, Math.min(bounds.height - cardHeight - 20, newY));
+                  // Strict boundary clamping
+                  const targetX = todo.x + info.offset.x;
+                  const targetY = todo.y + info.offset.y;
+                  const minX = 14;
+                  const minY = 14;
+                  const maxX = Math.max(minX, bounds.width - cardWidth - 14);
+                  const maxY = Math.max(minY, bounds.height - cardHeight - 14);
+
+                  const clampedX = Math.max(minX, Math.min(maxX, targetX));
+                  const clampedY = Math.max(minY, Math.min(maxY, targetY));
 
                   updateTodoPosition(todo.id, clampedX, clampedY);
                 }}
-                initial={{ scale: 0.9, opacity: 0 }}
+                initial={{ scale: 0.95, opacity: 0 }}
                 animate={{ scale: 1, opacity: 1, rotate: todo.rotation }}
                 className={`absolute w-44 p-2.5 rounded-lg border cursor-grab active:cursor-grabbing flex flex-col justify-between ${colorStyles[todo.color || 'yellow']}`}
                 style={{ left: `${todo.x}px`, top: `${todo.y}px` }}
               >
-                {/* 3D Rotated Pushpin Header */}
+                {/* Header */}
                 <div className="flex items-center justify-between pb-1 border-b border-black/10">
                   <span className="text-[10px] font-black bg-black/10 px-1 rounded">
                     #{todo.number}
                   </span>
 
-                  {/* 3D Angled Pushpin 📍 */}
-                  <div className="relative flex items-center justify-center -mt-2 transform -rotate-12">
-                    <div className="w-4 h-4 rounded-full bg-gradient-to-tr from-stone-500 via-stone-200 to-white shadow-[2px_3px_5px_rgba(0,0,0,0.55)] border border-stone-600 flex items-center justify-center">
+                  <div className="relative flex items-center justify-center -mt-2 transform -rotate-12 pointer-events-none">
+                    <div className="w-4 h-4 rounded-full bg-gradient-to-tr from-stone-500 via-stone-200 to-white shadow-[1px_2px_4px_rgba(0,0,0,0.5)] border border-stone-600 flex items-center justify-center">
                       <div className="w-1.5 h-1.5 rounded-full bg-white opacity-80" />
                     </div>
-                    <div className="absolute top-3.5 left-1 w-1.5 h-2 bg-stone-800/40 rounded-full blur-[1px] transform rotate-45" />
                   </div>
 
                   <button
@@ -353,7 +355,7 @@ export default function CorkBoard() {
                   </button>
                 </div>
 
-                {/* Top Fixed Centered Title */}
+                {/* Title */}
                 {todo.title && (
                   <div className="mt-1 pb-1 border-b border-black/5 text-center">
                     <h4 className={`text-xs font-black tracking-tight leading-snug break-words ${todo.completed ? 'line-through opacity-50' : ''}`}>
@@ -363,7 +365,7 @@ export default function CorkBoard() {
                 )}
 
                 {/* Content */}
-                <div className="my-1.5 flex-1 overflow-y-auto max-h-28">
+                <div className="my-1.5 max-h-28 overflow-y-auto">
                   {todo.type === 'checklist' && todo.checklist?.length > 0 ? (
                     <div className="space-y-1">
                       {todo.checklist.map((item) => (
@@ -438,7 +440,7 @@ export default function CorkBoard() {
                 </button>
               </div>
 
-              {/* Mode Toggle: Checklist vs Plain Note */}
+              {/* Mode Toggle */}
               <div className="flex bg-stone-950 p-1 rounded-xl mt-3 border border-stone-800">
                 <button
                   type="button"
@@ -461,25 +463,23 @@ export default function CorkBoard() {
               </div>
 
               <form onSubmit={handleSubmit} className="mt-3 space-y-3">
-                {/* Optional Title */}
                 <div>
                   <label className="text-[10px] font-bold uppercase tracking-wider text-stone-400">
                     Card Title <span className="text-stone-500 font-normal lowercase">(optional)</span>
                   </label>
                   <input
                     type="text"
-                    placeholder="e.g. Investigation Checklist"
+                    placeholder="e.g. Investigation Notes"
                     value={title}
                     onChange={(e) => setTitle(e.target.value)}
                     className="w-full mt-1 px-2.5 py-1.5 bg-stone-950 border border-stone-700 rounded-lg text-xs text-stone-100 outline-none focus:border-amber-400 transition"
                   />
                 </div>
 
-                {/* Checklist Inputs */}
                 {cardType === 'checklist' ? (
                   <div className="space-y-1.5">
                     <label className="text-[10px] font-bold uppercase tracking-wider text-stone-400 flex justify-between">
-                      <span>Checklist Tasks</span>
+                      <span>Tasks</span>
                       <button
                         type="button"
                         onClick={handleAddChecklistInput}
@@ -527,7 +527,6 @@ export default function CorkBoard() {
                   </div>
                 )}
 
-                {/* Color Palette */}
                 <div>
                   <label className="text-[10px] font-bold uppercase tracking-wider text-stone-400 mb-1 block">
                     Card Paper Color
@@ -552,7 +551,6 @@ export default function CorkBoard() {
                   </div>
                 </div>
 
-                {/* Submit Controls */}
                 <div className="flex gap-2 pt-1">
                   <button
                     type="button"
@@ -563,7 +561,7 @@ export default function CorkBoard() {
                   </button>
                   <button
                     type="submit"
-                    className="flex-1 py-1.5 text-xs font-bold bg-amber-500 hover:bg-amber-400 rounded-lg transition text-stone-950 shadow"
+                    className="flex-1 py-1.5 text-xs font-bold bg-amber-500 hover:bg-amber-400 text-stone-950 rounded-lg transition shadow"
                   >
                     {editingCard ? 'Save Card' : 'Pin to Board'}
                   </button>

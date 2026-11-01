@@ -4,19 +4,17 @@ import { persist } from 'zustand/middleware';
 export const useWorkspaceStore = create(
   persist(
     (set, get) => ({
-      activeTab: 'wall', // 'wall' | 'notebook' | 'notes'
+      activeTab: 'notes',
       setActiveTab: (tab) => set({ activeTab: tab }),
 
-      // ==========================================
-      // 1. WALL TODOS / CARDS MODULE
-      // ==========================================
+      // --- WALL TODOS ---
       isAutoArranged: false,
       toggleAutoArrange: () => set((state) => ({ isAutoArranged: !state.isAutoArranged })),
 
       todos: [
         { 
           id: '1', 
-          number: 1,
+          number: 1, 
           title: 'Detective Clues', 
           type: 'checklist',
           checklist: [
@@ -30,7 +28,7 @@ export const useWorkspaceStore = create(
           y: 20, 
           color: 'yellow', 
           rotation: -1.5 
-        },
+        }
       ],
 
       addCard: ({ title = '', type = 'note', text = '', checklist = [], color = 'yellow' }) => set((state) => {
@@ -108,69 +106,38 @@ export const useWorkspaceStore = create(
         todos: state.todos.map((t) => t.id === id ? { ...t, x, y } : t)
       })),
 
-      // ==========================================
-      // 2. NOTEBOOK MODULE
-      // ==========================================
+      // --- NOTEBOOK ---
       notebook: {
-        cover: 'vintage-leather', // 'vintage-leather' | 'obsidian' | 'emerald-velvet' | 'royal-blue'
+        cover: 'obsidian',
         hasPin: false,
         pin: '',
         isLocked: false,
         currentPage: 0,
         pages: [
-          {
-            id: 'page-1',
-            date: new Date().toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' }),
-            title: 'My Secret Journal',
-            content: 'Aaj se meri nayi journey shuru hui hai. Yahan mai apne ideas aur personal thoughts note karunga...'
-          }
+          { title: 'Project Overview', content: 'Building a 3D personal workspace desk.', date: 'Nov 1, 2026' }
         ]
       },
-
-      setNotebookCover: (cover) => set((state) => ({
-        notebook: { ...state.notebook, cover }
-      })),
-
+      setNotebookCover: (cover) => set((state) => ({ notebook: { ...state.notebook, cover } })),
       setNotebookPin: (pin) => set((state) => ({
-        notebook: { ...state.notebook, pin, hasPin: Boolean(pin), isLocked: Boolean(pin) }
+        notebook: { ...state.notebook, pin, hasPin: !!pin, isLocked: !!pin }
       })),
-
       unlockNotebook: (enteredPin) => {
         const { notebook } = get();
-        if (!notebook.hasPin || notebook.pin === enteredPin) {
+        if (notebook.pin === enteredPin) {
           set({ notebook: { ...notebook, isLocked: false } });
           return true;
         }
         return false;
       },
-
-      lockNotebook: () => set((state) => ({
-        notebook: { ...state.notebook, isLocked: state.notebook.hasPin }
+      lockNotebook: () => set((state) => ({ notebook: { ...state.notebook, isLocked: true } })),
+      nextPage: () => set((state) => ({
+        notebook: { ...state.notebook, currentPage: Math.min(state.notebook.currentPage + (window.innerWidth >= 768 ? 2 : 1), state.notebook.pages.length - 1) }
       })),
-
-      nextPage: () => set((state) => {
-        const next = state.notebook.currentPage + 1;
-        if (next < state.notebook.pages.length) {
-          return { notebook: { ...state.notebook, currentPage: next } };
-        }
-        return state;
-      }),
-
-      prevPage: () => set((state) => {
-        const prev = state.notebook.currentPage - 1;
-        if (prev >= 0) {
-          return { notebook: { ...state.notebook, currentPage: prev } };
-        }
-        return state;
-      }),
-
+      prevPage: () => set((state) => ({
+        notebook: { ...state.notebook, currentPage: Math.max(state.notebook.currentPage - (window.innerWidth >= 768 ? 2 : 1), 0) }
+      })),
       addNewPage: () => set((state) => {
-        const newPage = {
-          id: `page-${Date.now()}`,
-          date: new Date().toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' }),
-          title: `Entry #${state.notebook.pages.length + 1}`,
-          content: ''
-        };
+        const newPage = { title: `Entry #${state.notebook.pages.length + 1}`, content: '', date: new Date().toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' }) };
         return {
           notebook: {
             ...state.notebook,
@@ -179,41 +146,84 @@ export const useWorkspaceStore = create(
           }
         };
       }),
-
       updateCurrentPage: (title, content) => set((state) => {
-        const currentIdx = state.notebook.currentPage;
-        const updatedPages = [...state.notebook.pages];
-        if (updatedPages[currentIdx]) {
-          updatedPages[currentIdx] = {
-            ...updatedPages[currentIdx],
+        const pages = [...state.notebook.pages];
+        if (pages[state.notebook.currentPage]) {
+          pages[state.notebook.currentPage] = {
+            ...pages[state.notebook.currentPage],
             title,
             content
           };
         }
-        return {
-          notebook: { ...state.notebook, pages: updatedPages }
-        };
+        return { notebook: { ...state.notebook, pages } };
       }),
-
       deleteCurrentPage: () => set((state) => {
-        if (state.notebook.pages.length <= 1) return state; // Minimum 1 page rakhenge
-        const currentIdx = state.notebook.currentPage;
-        const updatedPages = state.notebook.pages.filter((_, idx) => idx !== currentIdx);
-        const newIdx = Math.max(0, currentIdx - 1);
+        if (state.notebook.pages.length <= 1) return state;
+        const pages = state.notebook.pages.filter((_, idx) => idx !== state.notebook.currentPage);
         return {
           notebook: {
             ...state.notebook,
-            pages: updatedPages,
-            currentPage: newIdx
+            pages,
+            currentPage: Math.max(0, state.notebook.currentPage - 1)
           }
         };
       }),
 
-      // ==========================================
-      // 3. CLOUD SYNC STATE
-      // ==========================================
+      // --- QUICK NOTES WITH DRAWING (DATA SAVED DIRECTLY) ---
+      notes: [
+        {
+          id: 'note_1',
+          title: 'Quick Scratchpad',
+          content: 'Keep snippets, passwords, and instant thoughts here.',
+          drawing: '',
+          tag: 'Work',
+          pinned: true,
+          updatedAt: 'Nov 1, 2026'
+        }
+      ],
+      addQuickNote: (title, content, tag = 'General', drawing = '') => set((state) => ({
+        notes: [
+          {
+            id: `note_${Date.now()}`,
+            title: title.trim() || (drawing ? 'Handwritten Sketch' : 'Untitled Memo'),
+            content: content.trim(),
+            drawing: drawing || '',
+            tag,
+            pinned: false,
+            updatedAt: new Date().toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' })
+          },
+          ...state.notes
+        ]
+      })),
+      updateQuickNote: (id, title, content, tag, drawing = '') => set((state) => ({
+        notes: state.notes.map((n) => 
+          n.id === id 
+            ? { 
+                ...n, 
+                title: title.trim() || (drawing ? 'Handwritten Sketch' : 'Untitled Memo'), 
+                content: content.trim(), 
+                drawing: drawing !== undefined ? drawing : n.drawing,
+                tag, 
+                updatedAt: new Date().toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' }) 
+              } 
+            : n
+        )
+      })),
+      togglePinQuickNote: (id) => set((state) => ({
+        notes: state.notes.map((n) => n.id === id ? { ...n, pinned: !n.pinned } : n)
+      })),
+      deleteQuickNote: (id) => set((state) => ({
+        notes: state.notes.filter((n) => n.id !== id)
+      })),
+
+      // --- CLOUD SYNC STATE ---
       isGoogleConnected: false,
-      setGoogleConnected: (status) => set({ isGoogleConnected: status }),
+      userProfile: null,
+      isSyncing: false,
+      lastSyncedAt: null,
+      setGoogleConnected: (status, profile = null) => set({ isGoogleConnected: status, userProfile: profile }),
+      setSyncing: (status) => set({ isSyncing: status }),
+      setLastSyncedAt: (timestamp) => set({ lastSyncedAt: timestamp })
     }),
     {
       name: 'booktodotask_storage',

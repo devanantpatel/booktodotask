@@ -3,7 +3,7 @@
     "activeCommit": 0,
     "commits": [
         {
-            "activePatchIndex": 12,
+            "activePatchIndex": 16,
             "patches": [
                 {
                     "date": 1793456720996,
@@ -56,6 +56,22 @@
                 {
                     "date": 1793525572150,
                     "content": "Index: \n===================================================================\n--- \n+++ \n@@ -28,9 +28,9 @@\n   const [amount, setAmount] = useState('21');\r\n   const [copiedUpi, setCopiedUpi] = useState(false);\r\n   \r\n   // Apna exact active UPI handle yahan verify karein\r\n-  const upiId = \"7607765685@ybl\";\r\n+  const upiId = \"7607765685@\";\r\n   const payeeName = \"Anant Patel\";\r\n \r\n   const validAmount = amount && Number(amount) > 0 ? amount : '1';\r\n   const upiUrl = `upi://pay?pa=${upiId}&pn=${encodeURIComponent(payeeName)}&am=${validAmount}&cu=INR&tn=${encodeURIComponent(\"Support Developer\")}&mc=0000&mode=02`;\r\n"
+                },
+                {
+                    "date": 1793527050000,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -28,14 +28,13 @@\n   const [amount, setAmount] = useState('21');\r\n   const [copiedUpi, setCopiedUpi] = useState(false);\r\n   \r\n   // Apna exact active UPI handle yahan verify karein\r\n-  const upiId = \"7607765685@\";\r\n+  const upiId = \"7607765685@upi\";\r\n   const payeeName = \"Anant Patel\";\r\n \r\n   const validAmount = amount && Number(amount) > 0 ? amount : '1';\r\n-  const upiUrl = `upi://pay?pa=${upiId}&pn=${encodeURIComponent(payeeName)}&am=${validAmount}&cu=INR&tn=${encodeURIComponent(\"Support Developer\")}&mc=0000&mode=02`;\r\n-  const qrCodeUrl = `https://api.qrserver.com/v1/create-qr-code/?size=240x240&margin=8&data=${encodeURIComponent(upiUrl)}`;\r\n+const upiUrl = `upi://pay?pa=${upiId}&pn=${encodeURIComponent(payeeName)}&am=${validAmount}&cu=INR&tn=${encodeURIComponent(\"Support\")}`;  const qrCodeUrl = `https://api.qrserver.com/v1/create-qr-code/?size=240x240&margin=8&data=${encodeURIComponent(upiUrl)}`;\r\n \r\n   const tabs = [\r\n     { id: 'wall', label: 'Wall Tasks', icon: CheckSquare },\r\n     { id: 'notebook', label: 'Notebook', icon: BookOpen },\r\n"
+                },
+                {
+                    "date": 1793527056562,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -32,9 +32,10 @@\n   const upiId = \"7607765685@upi\";\r\n   const payeeName = \"Anant Patel\";\r\n \r\n   const validAmount = amount && Number(amount) > 0 ? amount : '1';\r\n-const upiUrl = `upi://pay?pa=${upiId}&pn=${encodeURIComponent(payeeName)}&am=${validAmount}&cu=INR&tn=${encodeURIComponent(\"Support\")}`;  const qrCodeUrl = `https://api.qrserver.com/v1/create-qr-code/?size=240x240&margin=8&data=${encodeURIComponent(upiUrl)}`;\r\n+  const upiUrl = `upi://pay?pa=${upiId}&pn=${encodeURIComponent(payeeName)}&am=${validAmount}&cu=INR&tn=${encodeURIComponent(\"Support Developer\")}&mc=0000&mode=02`;\r\n+  const qrCodeUrl = `https://api.qrserver.com/v1/create-qr-code/?size=240x240&margin=8&data=${encodeURIComponent(upiUrl)}`;\r\n \r\n   const tabs = [\r\n     { id: 'wall', label: 'Wall Tasks', icon: CheckSquare },\r\n     { id: 'notebook', label: 'Notebook', icon: BookOpen },\r\n"
+                },
+                {
+                    "date": 1793527062218,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -32,9 +32,8 @@\n   const upiId = \"7607765685@upi\";\r\n   const payeeName = \"Anant Patel\";\r\n \r\n   const validAmount = amount && Number(amount) > 0 ? amount : '1';\r\n-  const upiUrl = `upi://pay?pa=${upiId}&pn=${encodeURIComponent(payeeName)}&am=${validAmount}&cu=INR&tn=${encodeURIComponent(\"Support Developer\")}&mc=0000&mode=02`;\r\n   const qrCodeUrl = `https://api.qrserver.com/v1/create-qr-code/?size=240x240&margin=8&data=${encodeURIComponent(upiUrl)}`;\r\n \r\n   const tabs = [\r\n     { id: 'wall', label: 'Wall Tasks', icon: CheckSquare },\r\n"
+                },
+                {
+                    "date": 1793527082763,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -32,10 +32,10 @@\n   const upiId = \"7607765685@upi\";\r\n   const payeeName = \"Anant Patel\";\r\n \r\n   const validAmount = amount && Number(amount) > 0 ? amount : '1';\r\n-  const qrCodeUrl = `https://api.qrserver.com/v1/create-qr-code/?size=240x240&margin=8&data=${encodeURIComponent(upiUrl)}`;\r\n-\r\n+  const upiUrl = `upi://pay?pa=${upiId}&pn=${encodeURIComponent(payeeName)}&am=${validAmount}&cu=INR&tn=${encodeURIComponent(\"Support\")}`;\r\n+const qrCodeUrl = `https://api.qrserver.com/v1/create-qr-code/?size=250x250&margin=10&data=${encodeURIComponent(upiUrl)}`;\r\n   const tabs = [\r\n     { id: 'wall', label: 'Wall Tasks', icon: CheckSquare },\r\n     { id: 'notebook', label: 'Notebook', icon: BookOpen },\r\n     { id: 'notes', label: 'Quick Notes', icon: StickyNote },\r\n"
                 }
             ],
             "date": 1793456720996,

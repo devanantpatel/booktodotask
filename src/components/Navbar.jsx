@@ -33,9 +33,8 @@ export default function Navbar() {
   const payeeName = "Anant Patel";
 
   const validAmount = amount && Number(amount) > 0 ? amount : '1';
-  const upiUrl = `upi://pay?pa=${upiId}&pn=${encodeURIComponent(payeeName)}&am=${validAmount}&cu=INR&tn=${encodeURIComponent("Support Developer")}&mc=0000&mode=02`;
-  const qrCodeUrl = `https://api.qrserver.com/v1/create-qr-code/?size=240x240&margin=8&data=${encodeURIComponent(upiUrl)}`;
-
+  const upiUrl = `upi://pay?pa=${upiId}&pn=${encodeURIComponent(payeeName)}&am=${validAmount}&cu=INR&tn=${encodeURIComponent("Support")}`;
+const qrCodeUrl = `https://api.qrserver.com/v1/create-qr-code/?size=250x250&margin=10&data=${encodeURIComponent(upiUrl)}`;
   const tabs = [
     { id: 'wall', label: 'Wall Tasks', icon: CheckSquare },
     { id: 'notebook', label: 'Notebook', icon: BookOpen },

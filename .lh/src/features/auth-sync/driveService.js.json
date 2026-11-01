@@ -1,0 +1,18 @@
+{
+    "sourceFile": "src/features/auth-sync/driveService.js",
+    "activeCommit": 0,
+    "commits": [
+        {
+            "activePatchIndex": 0,
+            "patches": [
+                {
+                    "date": 1793509172723,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n"
+                }
+            ],
+            "date": 1793509172723,
+            "name": "Commit-0",
+            "content": "// Google Drive appDataFolder API Service\r\nconst FILE_NAME = 'booktodotask_workspace.json';\r\nconst DRIVE_APP_DATA_SCOPE = 'https://www.googleapis.com/auth/drive.appdata';\r\n\r\nexport class DriveSyncService {\r\n  constructor(accessToken) {\r\n    this.token = accessToken;\r\n  }\r\n\r\n  getHeaders(contentType = 'application/json') {\r\n    return {\r\n      Authorization: `Bearer ${this.token}`,\r\n      'Content-Type': contentType,\r\n    };\r\n  }\r\n\r\n  // 1. Find existing workspace file in appDataFolder\r\n  async findWorkspaceFile() {\r\n    const q = encodeURIComponent(`name = '${FILE_NAME}' and 'appDataFolder' in parents and trashed = false`);\r\n    const res = await fetch(`https://www.googleapis.com/drive/v3/files?spaces=appDataFolder&q=${q}&fields=files(id,name)`, {\r\n      headers: this.getHeaders(),\r\n    });\r\n    const data = await res.json();\r\n    return data.files && data.files.length > 0 ? data.files[0].id : null;\r\n  }\r\n\r\n  // 2. Download existing workspace data from Drive\r\n  async downloadWorkspace(fileId) {\r\n    const res = await fetch(`https://www.googleapis.com/drive/v3/files/${fileId}?alt=media`, {\r\n      headers: this.getHeaders(),\r\n    });\r\n    return await res.json();\r\n  }\r\n\r\n  // 3. Upload or update workspace data\r\n  async saveWorkspace(workspaceData) {\r\n    const existingFileId = await this.findWorkspaceFile();\r\n    const boundary = '-------314159265358979323846';\r\n    const delimiter = `\\r\\n--${boundary}\\r\\n`;\r\n    const closeDelimiter = `\\r\\n--${boundary}--`;\r\n\r\n    const metadata = {\r\n      name: FILE_NAME,\r\n      mimeType: 'application/json',\r\n      parents: existingFileId ? undefined : ['appDataFolder'],\r\n    };\r\n\r\n    const multipartRequestBody =\r\n      delimiter +\r\n      'Content-Type: application/json; charset=UTF-8\\r\\n\\r\\n' +\r\n      JSON.stringify(metadata) +\r\n      delimiter +\r\n      'Content-Type: application/json\\r\\n\\r\\n' +\r\n      JSON.stringify(workspaceData) +\r\n      closeDelimiter;\r\n\r\n    let url = 'https://www.googleapis.com/upload/drive/v3/files?uploadType=multipart';\r\n    let method = 'POST';\r\n\r\n    if (existingFileId) {\r\n      url = `https://www.googleapis.com/upload/drive/v3/files/${existingFileId}?uploadType=multipart`;\r\n      method = 'PATCH';\r\n    }\r\n\r\n    const res = await fetch(url, {\r\n      method,\r\n      headers: this.getHeaders(`multipart/related; boundary=${boundary}`),\r\n      body: multipartRequestBody,\r\n    });\r\n\r\n    return await res.json();\r\n  }\r\n}"
+        }
+    ]
+}

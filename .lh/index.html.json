@@ -3,11 +3,15 @@
     "activeCommit": 0,
     "commits": [
         {
-            "activePatchIndex": 0,
+            "activePatchIndex": 1,
             "patches": [
                 {
                     "date": 1793509124842,
                     "content": "Index: \n===================================================================\n--- \n+++ \n"
+                },
+                {
+                    "date": 1793526204165,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -1,11 +1,15 @@\n <!doctype html>\n <html lang=\"en\">\n   <head>\n     <meta charset=\"UTF-8\" />\n-    <link rel=\"icon\" type=\"image/svg+xml\" href=\"/vite.svg\" />\n+    \n+    <!-- booktodotask Favicon Link -->\n+    <link rel=\"icon\" type=\"image/svg+xml\" href=\"/favicon.svg\" />\n+    \n     <meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\" />\n     <title>booktodotask</title>\n+\n     <!-- Google Identity Services -->\n     <script src=\"https://accounts.google.com/gsi/client\" async defer></script>\n   </head>\n   <body>\n"
                 }
             ],
             "date": 1793509124842,
